@@ -124,6 +124,9 @@ BOARD_FLASHFILES += $(PRODUCT_OUT)/bootloader.img
 
 
 
+BOARD_SEPOLICY_DIRS += $(INTEL_PATH_SEPOLICY)/boot-arch/multiuser
+MULTI_USER_SUPPORT := true
+
 BOARD_SEPOLICY_DIRS += $(INTEL_PATH_SEPOLICY)/boot-arch/generic
 BOARD_SEPOLICY_DIRS += $(INTEL_PATH_SEPOLICY)/abota/generic
 BOARD_SEPOLICY_DIRS += $(INTEL_PATH_SEPOLICY)/abota/efi
@@ -629,4 +632,22 @@ BOARD_SEPOLICY_DIRS += $(INTEL_PATH_SEPOLICY)/aafd
 USE_SENSOR_MEDIATION_HAL := true
 
 BOARD_SEPOLICY_DIRS += $(INTEL_PATH_SEPOLICY)/sensors/mediation
+##############################################################
+# Source: device/intel/mixins/groups/houdini/true/BoardConfig.mk
+##############################################################
+# Native Bridge ABI List
+NB_ABI_LIST_32_BIT := armeabi-v7a armeabi
+NB_ABI_LIST_64_BIT := arm64-v8a
+# Support 64 Bit Apps
+TARGET_CPU_ABI_LIST_64_BIT ?= $(TARGET_CPU_ABI) $(TARGET_CPU_ABI2)
+TARGET_CPU_ABI_LIST_32_BIT ?= $(TARGET_2ND_CPU_ABI) $(TARGET_2ND_CPU_ABI2)
+TARGET_CPU_ABI_LIST := \
+    $(TARGET_CPU_ABI_LIST_64_BIT) \
+    $(TARGET_CPU_ABI_LIST_32_BIT) \
+    $(NB_ABI_LIST_64_BIT) \
+    $(NB_ABI_LIST_32_BIT)
+TARGET_CPU_ABI_LIST_32_BIT += $(NB_ABI_LIST_32_BIT)
+TARGET_CPU_ABI_LIST_64_BIT += $(NB_ABI_LIST_64_BIT)
+
+BOARD_SEPOLICY_DIRS += $(INTEL_PATH_SEPOLICY)/houdini
 # ------------------ END MIX-IN DEFINITIONS ------------------
